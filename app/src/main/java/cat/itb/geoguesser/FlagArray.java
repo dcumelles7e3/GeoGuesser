@@ -1,6 +1,11 @@
 package cat.itb.geoguesser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FlagArray {
+    private int position=0;
+
     public FlagModel[] flags = new FlagModel[]{
             new FlagModel("Andorra", R.drawable.andorra),
             new FlagModel("Argentina", R.drawable.argentina),
@@ -24,12 +29,40 @@ public class FlagArray {
             new FlagModel("Hungary", R.drawable.hungary),
     };
 
-    public FlagModel[] flagArray(int size){
-       FlagModel[] flagArray = new FlagModel[size];
-       for (int i = 0; i < size; i++){
-         // Math.random()
-       }
+    public FlagModel[] createFlagArray(int size) {
+        List<Integer> used = new ArrayList<Integer>() {
+        };
 
-       return flagArray;
+        FlagModel[] flagArray = new FlagModel[size];
+        for (int i = 0; i < size; i++) {
+            int rand=random(0,flagArray.length);
+            if (!used.contains(rand)){
+                used.add(rand);
+                flagArray[i]=flags[rand];
+            }else{
+                i-=1;
+            }
+        }
+        return flagArray;
+    }
+
+    public int getPosition(){
+        return position;
+    }
+
+    public void nextFlag(){
+        position++;
+    }
+
+    public static int random(int min,int max){
+        return (int)Math.floor(Math.random()*(max-min+1)+(min));
+    }
+
+    public int listSize(){
+        return flags.length;
+    }
+
+    public String randomName(){
+        return flags[random(0,flags.length-1)].getName();
     }
 }
