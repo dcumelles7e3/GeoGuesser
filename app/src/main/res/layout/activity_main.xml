@@ -4,74 +4,119 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:background="@color/colorAccent">
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PLACEHOLDER"
-        android:layout_gravity="center"
-        android:layout_weight="0.1"/>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.15"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/b_hint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="@string/b_hint"
+            style="@style/Button"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:hint="PLACEHOLDER"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:layout_weight="0.7"/>
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:hint="@string/b_score"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_counter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:hint="10/40"
+            android:layout_weight="1"
+            style="@style/Score"
+             />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/flag"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="0.4"/>
+        android:layout_weight="0.7" />
 
 
     <ProgressBar
+        android:id="@+id/pb"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.01"
-        style="?android:attr/progressBarStyleHorizontal"
-        />
+         />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="0.05">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="5dp"
+        android:layout_weight="1.12"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/b_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:hint="1"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:theme="@style/Button"
+            tools:hint="1" />
 
         <Button
             android:id="@+id/b_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:hint="2"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:theme="@style/Button"
+            tools:hint="2" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="0.05">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="5dp"
+        android:layout_weight="1.12"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/b_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:hint="3"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:theme="@style/Button"
+            tools:hint="3" />
 
         <Button
             android:id="@+id/b_4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:hint="4"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:theme="@style/Button"
+            tools:hint="4" />
 
     </LinearLayout>
 

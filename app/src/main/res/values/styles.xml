@@ -5,15 +5,26 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionBarStyle">@style/actionvar</item>
+        <item name="actionBarStyle">@style/Actionvar</item>
 
 
     </style>
 
-    <style name="actionvar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="Actionvar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="logo">@mipmap/ic_launcher_round</item>
         <item name="displayOptions">useLogo|showHome</item>
     </style>
+
+    <style name="Button">
+        <item name="backgroundTint">@color/button</item>
+    </style>
+
+    <style name="Score">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
 
 </resources>
 
