@@ -12,54 +12,61 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="1.15"
+        android:layout_weight="0.6"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/b_hint"
             style="@style/Button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
             tools:text="@string/b_hint" />
 
-
-        <TextView
-            android:id="@+id/tv_result"
+        <ImageView
+            android:id="@+id/flag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            tools:hint="PLACEHOLDER" />
+            android:layout_gravity="center"
+            android:layout_weight="0.7" />
 
-        <TextView
-            android:id="@+id/tv_score"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:hint="@string/b_score" />
+            android:layout_weight="1.1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_counter"
-            style="@style/Score"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:hint="10/40" />
+
+            <TextView
+                android:id="@+id/tv_score"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:hint="@string/b_score" />
+
+            <TextView
+                android:id="@+id/tv_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:hint="PLACEHOLDER" />
+
+            <TextView
+                android:id="@+id/tv_counter"
+                style="@style/Score"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:hint="10/40" />
+        </LinearLayout>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/flag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="0.7" />
-
 
     <ProgressBar
         android:id="@+id/pb"
@@ -90,7 +97,6 @@
             android:layout_weight="1"
             android:theme="@style/Button"
             tools:hint="2" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -116,4 +122,5 @@
             android:theme="@style/Button"
             tools:hint="4" />
     </LinearLayout>
+
 </LinearLayout>
