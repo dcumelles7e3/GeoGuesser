@@ -84,6 +84,10 @@ public class FlagArray {
         return position;
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     public void nextFlag(){
         position++;
     }

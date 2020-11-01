@@ -1,5 +1,6 @@
 package cat.itb.geoguesser;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     AlertDialog.Builder dialog;
-    private final int ARRAY_SIZE = 10;
+    private final int ARRAY_SIZE = 30;
     private int hints = 3;
     private ImageView image;
     private TextView tv_result, tv_score, tv_counter;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private double score = 0;
     private boolean usedHint = false;
     private MyCountDownTimer myCountDownTimer;
+    private int timerProgress = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b_hint.setOnClickListener(this);
 
         buttons = new Button[]{b_1, b_2, b_3, b_4};
+
+        if (savedInstanceState!=null){
+            flagArray.setPosition(savedInstanceState.getInt("arrayPosition"));
+            score = savedInstanceState.getDouble("score");
+        }
 
         update();
     }
@@ -138,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 b_hint.setEnabled(true);
             }
             //Restart countdown
-            pb.setProgress(100);
+            pb.setProgress(timerProgress);
             myCountDownTimer = new MyCountDownTimer(5000, 100);
             myCountDownTimer.start();
 
@@ -177,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tv_counter.setText(counter);
             String strcore = "SCORE\n" + score;
             tv_score.setText(strcore);
-        }else{
+        } else {
             dialog();
         }
     }
@@ -202,16 +209,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onFinish() {
 
             pb.setProgress(0);
-            //score -= 0.5;
-            //update();
             check(b_hint);
             tv_result.setText("TIME OUT!");
+
         }
 
     }
 
-    public void dialog(){
-        dialog.setTitle("Scored "+score+" out of "+ARRAY_SIZE+"!");
+    public void dialog() {
+        dialog.setTitle("Scored " + score + " out of " + ARRAY_SIZE + "!");
         dialog.setMessage("Do you want to try again?");
         dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
@@ -225,10 +231,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.cancel();
                 Intent intent = getIntent();
                 finish();
-                startActivity(intent);;
+                startActivity(intent);
+
             }
         });
         dialog.show();
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putDouble("score",score);
+        outState.putInt("arrayPosition",flagArray.getPosition());
+        //outState.clone();
+
+    }
+
 
 }
