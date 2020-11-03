@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             //Update view
+            tv_result.setText("");
             image.setImageResource(flags[flagArray.getPosition()].getImage());
             flagArray.nextFlag();
             String counter = flagArray.getPosition() + "/" + ARRAY_SIZE;
