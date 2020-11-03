@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         final Bundle bundle = getIntent().getExtras();
-
         if (bundle != null) {
             hints = bundle.getInt("hints");
             ARRAY_SIZE = bundle.getInt("flags");
@@ -103,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
     public void check(Button b) {
         b_hint.setEnabled(false);
         //Disabling all buttons to later choose which to display
@@ -138,10 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         myCountDownTimer.cancel();
-        String strScore = "SCORE\n" + score;
-        tv_score.setText(strScore);
 
-        //Delay after choosing
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -195,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             flagArray.nextFlag();
             String counter = flagArray.getPosition() + "/" + ARRAY_SIZE;
             tv_counter.setText(counter);
+            String strScore = "SCORE\n" + score;
+            tv_score.setText(strScore);
         } else {
             dialog();
         }
@@ -219,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             b_out.setVisibility(View.GONE);
             tv_result.setText("TIME OUT!");
         }
-
     }
 
     public void dialog() {
