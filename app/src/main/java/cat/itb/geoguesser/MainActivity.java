@@ -14,25 +14,27 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     AlertDialog.Builder dialog;
-    private final int ARRAY_SIZE = 30;
-    private int hints = 3;
+    private int ARRAY_SIZE;
+    private int hints;
     private ImageView image;
     private TextView tv_result, tv_score, tv_counter;
     private ProgressBar pb;
-    private Button b_1, b_2, b_3, b_4, b_hint;
+    private Button b_1, b_2, b_3, b_4, b_hint, b_out;
     private final FlagArray flagArray = new FlagArray();
-    private final FlagModel[] flags = flagArray.createFlagArray(ARRAY_SIZE);
+    private FlagModel[] flags;
     private Button[] buttons;
     private double score = 0;
-    private boolean usedHint = false;
+    private boolean usedHint = false;       //for hint logic
     private MyCountDownTimer myCountDownTimer;
     private int timerProgress = 100;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
+        final Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            hints = bundle.getInt("hints");
+            ARRAY_SIZE = bundle.getInt("flags");
+        }
+
+        //Creating random flag array
+        flags = flagArray.createFlagArray(ARRAY_SIZE);
+
         dialog = new AlertDialog.Builder(this);
         tv_result = findViewById(R.id.tv_result);
         tv_score = findViewById(R.id.tv_score);
@@ -52,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pb = findViewById(R.id.pb);
         b_hint = findViewById(R.id.b_hint);
         b_hint.setText("HINT\n" + hints);
+        b_out = findViewById(R.id.b_out);
         image = findViewById(R.id.flag);
 
         b_1 = findViewById(R.id.b_1);
@@ -66,24 +79,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         buttons = new Button[]{b_1, b_2, b_3, b_4};
 
-        if (savedInstanceState!=null){
-            flagArray.setPosition(savedInstanceState.getInt("arrayPosition"));
-            score = savedInstanceState.getDouble("score");
-        }
-
         update();
     }
 
     @Override
     public void onClick(View v) {
-
         Button b = (Button) v;
         if (b == b_hint) {
             if (hints != 0) {
                 hints -= 1;
                 b_hint.setText("HINT\n" + hints);
                 usedHint = true;
-
                 for (Button button : buttons) {
                     if (button.getText().equals(getCurrentName(1))) {
                         b_hint.setEnabled(false);
@@ -91,9 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         tv_result.setText(getCurrentName(1).toUpperCase());
                     }
                 }
-
-                //Stop the timer on hint used
-                myCountDownTimer.cancel();
             }
         } else {
             check(b);
@@ -102,35 +105,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void check(Button b) {
         b_hint.setEnabled(false);
-
+        //Disabling all buttons to later choose which to display
         for (Button button : buttons) {
             button.setVisibility(View.INVISIBLE);
             button.setEnabled(false);
         }
 
+        //Checking if button was the correct
         if (b.getText() == getCurrentName(1)) {
             b.setVisibility(View.VISIBLE);
+            b.setTextColor(greenColor());
             tv_result.setText("CORRECT");
-            tv_result.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tv_result.setTextColor(greenColor());
             if (!usedHint) {
                 score++;
             } else {
                 usedHint = false;
             }
         } else {
+            //Turning true button visible
             for (Button button : buttons) {
                 if (button.getText().equals(getCurrentName(1))) {
                     button.setVisibility(View.VISIBLE);
+                    button.setTextColor(greenColor());
                 }
-
             }
+            b.setVisibility(View.VISIBLE);
+            b.setTextColor(redColor());
             tv_result.setText("WRONG!");
-            tv_result.setTextColor(getResources().getColor(R.color.red));
+            tv_result.setTextColor(redColor());
             score -= 0.5;
         }
 
         myCountDownTimer.cancel();
+        String strScore = "SCORE\n" + score;
+        tv_score.setText(strScore);
 
+        //Delay after choosing
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -178,21 +189,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
+            //Update view
             image.setImageResource(flags[flagArray.getPosition()].getImage());
             flagArray.nextFlag();
             String counter = flagArray.getPosition() + "/" + ARRAY_SIZE;
             tv_counter.setText(counter);
-            String strcore = "SCORE\n" + score;
-            tv_score.setText(strcore);
         } else {
             dialog();
         }
     }
 
-    public String getCurrentName(int back) {
-        return flags[flagArray.getPosition() - back].getName();
-    }
-
+    //Timer
     public class MyCountDownTimer extends CountDownTimer {
         public MyCountDownTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -200,26 +207,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onTick(long millisUntilFinished) {
-
             int progress = (int) (millisUntilFinished / 50);
             pb.setProgress(progress);
         }
 
         @Override
         public void onFinish() {
-
             pb.setProgress(0);
-            check(b_hint);
+            check(b_out);
+            b_out.setVisibility(View.GONE);
             tv_result.setText("TIME OUT!");
-
         }
 
     }
 
     public void dialog() {
-        dialog.setTitle("Scored " + score + " out of " + ARRAY_SIZE + "!");
+        String title;
+        if (score < 0) {
+            title = "You did Poorly!";
+        } else {
+            double n = ((score * 100) / ARRAY_SIZE);
+            title = "Scored " + n + " out of 100!";
+        }
+        dialog.setTitle(title);
         dialog.setMessage("Do you want to try again?");
-        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton("Change difficulty", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.this.finish();
@@ -232,19 +244,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
-
             }
         });
         dialog.show();
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putDouble("score",score);
-        outState.putInt("arrayPosition",flagArray.getPosition());
-        //outState.clone();
+    protected void onDestroy() {
+        super.onDestroy();
 
+        //Fixes crash on returning to option activity
+        myCountDownTimer.cancel();
+    }
+
+    //Returns the current or previous flag name
+    public String getCurrentName(int back) {
+        return flags[flagArray.getPosition() - back].getName();
+    }
+
+    public int greenColor() {
+        return getResources().getColor(R.color.colorPrimary);
+    }
+
+    public int redColor() {
+        return getResources().getColor(R.color.red);
     }
 
 

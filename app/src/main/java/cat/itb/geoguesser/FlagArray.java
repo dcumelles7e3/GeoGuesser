@@ -60,13 +60,10 @@ public class FlagArray {
             new FlagModel("usa", R.drawable.usa),
             new FlagModel("venezuela", R.drawable.venezuela),
             new FlagModel("wales", R.drawable.wales),
-
     };
 
     public FlagModel[] createFlagArray(int size) {
-        List<Integer> used = new ArrayList<Integer>() {
-        };
-
+        List<Integer> used = new ArrayList<Integer>() {};
         FlagModel[] flagArray = new FlagModel[size];
         for (int i = 0; i < size; i++) {
             int rand=random(0,flagArray.length);
@@ -92,10 +89,12 @@ public class FlagArray {
         position++;
     }
 
+    //Returns random int
     public static int random(int min,int max){
         return (int)Math.floor(Math.random()*(max-min+1)+(min));
     }
 
+    //Returns random name for buttons
     public String randomName(){
         return flags[random(0,flags.length-1)].getName();
     }

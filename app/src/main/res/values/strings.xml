@@ -2,4 +2,7 @@
     <string name="app_name">Geo Guesser</string>
     <string name="b_hint">HINT\n5</string>
     <string name="b_score">SCORE\n5</string>
+    <string name="easy">Easy\n\n5 hints\n15 Flags</string>
+    <string name="medium">Medium\n\n3 hints\n25 Flags</string>
+    <string name="hard">Hard\n\n2 hints\n40 Flags</string>
 </resources>
